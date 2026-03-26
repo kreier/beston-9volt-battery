@@ -81,4 +81,10 @@ The board designation **BLD\_9V V1.0** confirms it's a purpose-designed 2S LiPol
 
 ### ChatGPT 
 
-We needed 3 iterations:
+We needed 4 iterations, with coloring, non-overlapping orthogonal routing:
+
+![schematic v1](docs/circuit_ChatGPT_v1.svg)
+![schematic v2](docs/circuit_ChatGPT_v2.svg)
+![schematic v3](docs/circuit_ChatGPT_v3.svg)
+![schematic v4](docs/circuit_ChatGPT_v4.svg)
+![schematic v5](docs/circuit_ChatGPT_v5.svg)
