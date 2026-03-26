@@ -5,7 +5,7 @@
 
 Investigating and documenting the inside of a 9V LiPo block battery replacement.
 
-## Circuit
+## Circuit diagram overview
 
 The 8205A is a dual N-channel MOSFET (two MOSFETs in a single 8-pin package). It acts as the main power switch for the battery pack — one MOSFET controls charge, the other controls discharge. When the protection IC detects an unsafe condition, it cuts the gate voltage to one or both FETs, disconnecting the battery from the output.
 
@@ -40,6 +40,16 @@ The "9V" label is a slight marketing stretch — two LiPol cells in series give 
 
 <a href="docs/pic_pcb.jpg"><img src="docs/pic_pcb.jpg" width="49%"></a> <a href="docs/pic_mosfet_8205A.jpg"><img src="docs/pic_mosfet_8205A.jpg" width="49%"></a>
 
+Explanation from Claude Sonnet 4.6:
+
+**From the image:**
+
+* Top-left: **8205A** (dual MOSFET) \+ small cap nearby  
+* Center: **20N R68** (6-pin protection IC, SOT-23-6)  
+* Board marked **BLD\_9V V1.0**  
+* Pads: **BM** (battery minus, ×2 left side), **B+** (top right), **B-** (bottom left)  
+* Passives visible: **R1, R2** (resistors, bottom area), **C1, C2** (capacitors, mid area), **R3** (top, likely the 30B sense resistor)
+
 ## Electronic devices
 
 ### 20N R68 protection IC
@@ -52,3 +62,23 @@ The "9V" label is a slight marketing stretch — two LiPol cells in series give 
 - [Datasheet](docs/8205A_KIA.PDF) from KIA Semiconductors, 5 pages, v1.1 12/2015, 223 KB
 - [Datasheet](docs/8205A_VBsemi.PDF) from VBsemi.tw, 8 pages, 869 KB
 - [Datasheet](docs/8205A.PDF) from unclassified manufacturer in China, 7 pages, 10/2023, 535 KB
+
+## Reconstructed circuit diagram
+
+### Claude Sonnet 4.6
+
+![circuit diagram](docs/BLD_9V_V1_complete_schematic_v3.svg)
+
+**R3 (30B sense resistor)** sits in the B− return path between the cell stack and IC ground — the IC reads the tiny voltage drop across it on its CS pin to detect overcurrent.
+
+**R1 \+ R2 (voltage divider)** tap the mid-point between Cell 1 and Cell 2 and feed it into the IC's VM pin. This is how the protection IC monitors each cell *individually* rather than just the total pack voltage — essential for a 2S pack so one cell can't be over- or under-charged without the IC noticing.
+
+**C1 (100nF)** decouples the VCC supply pin of the IC against noise spikes during switching.
+
+**C2 (100nF)** filters the VM or CS sensing line, preventing false triggers from transient noise during load switching.
+
+The board designation **BLD\_9V V1.0** confirms it's a purpose-designed 2S LiPol protection board — not a generic single-cell module adapted for 9V use.
+
+### ChatGPT 
+
+We needed 3 iterations:
