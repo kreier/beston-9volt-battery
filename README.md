@@ -1,4 +1,4 @@
-# beston-9volt-battery
+# Beston 9 Volt LiPo Battery
 
 ![GitHub License](https://img.shields.io/github/license/kreier/beston-9volt-battery)
 ![GitHub Release](https://img.shields.io/github/v/release/kreier/beston-9volt-battery)
@@ -19,20 +19,36 @@ Since you have two LiPol packs inside, they are most likely wired in series to p
 
 The color-coded paths:
 
-- Amber — the positive/discharge path running from B+ through the protection IC, through the 8205A, to the output terminal
-- Blue — the negative/return path, which passes through the 30B sense resistor on its way back to B−
-- Green dashed — the gate control signals from the protection IC to the two MOSFETs inside the 8205A
-- Gray — the internal cell-to-cell series connection
+- **Amber** — the positive/discharge path running from B+ through the protection IC, through the 8205A, to the output terminal
+- **Blue** — the negative/return path, which passes through the 30B sense resistor on its way back to B−
+- **Green dashed** — the gate control signals from the protection IC to the two MOSFETs inside the 8205A
+- **Gray** — the internal cell-to-cell series connection
 
 Here's how the three stages work together in normal operation:
 
-During discharge (powering a device): current flows from B+ → protection IC monitoring lines → through the 8205A's discharge FET → to the output. The 20N R68 watches cell voltage via B+ and B−, and monitors current via the voltage drop across the 30B sense resistor. If a cell drops below ~2.5V or current spikes (short circuit), it pulls the DSG gate low, the FET opens, and the output is cut.
+**During discharge** (powering a device): current flows from B+ → protection IC monitoring lines → through the 8205A's discharge FET → to the output. The 20N R68 watches cell voltage via B+ and B−, and monitors current via the voltage drop across the 30B sense resistor. If a cell drops below ~2.5V or current spikes (short circuit), it pulls the DSG gate low, the FET opens, and the output is cut.
 
-During charging: current flows in reverse through the 8205A's charge FET. The IC watches for overvoltage (~4.25V per cell). If either cell exceeds this, it cuts the CHG gate, stopping charge. This protects the cells from thermal runaway.
+**During charging**: current flows in reverse through the 8205A's charge FET. The IC watches for overvoltage (~4.25V per cell). If either cell exceeds this, it cuts the CHG gate, stopping charge. This protects the cells from thermal runaway.
 
-The 30B sense resistor sits in the B− path between the cells and the IC ground reference. At 0.030Ω, even a few amps of overcurrent produces a measurable millivolt signal the IC uses to trip the protection in microseconds.
+**The 30B sense resistor** sits in the B− path between the cells and the IC ground reference. At 0.030Ω, even a few amps of overcurrent produces a measurable millivolt signal the IC uses to trip the protection in microseconds.
 
 The "9V" label is a slight marketing stretch — two LiPol cells in series give 8.4V fully charged and around 7.0–7.4V nominal, but 9V carbon-zinc equivalents also sag heavily under load, so the chemistry is considered compatible for most applications.
 
 ## Images of the physical devices, disassembled
 
+<a href="docs/pic_inside.jpg"><img src="docs/pic_inside.jpg" width="49%"></a> <a href="docs/pic_disassembled.jpg"><img src="docs/pic_disassembled.jpg" width="49%"></a>
+
+<a href="docs/pic_pcb.jpg"><img src="docs/pic_pcb.jpg" width="49%"></a> <a href="docs/pic_mosfet_8205A.jpg"><img src="docs/pic_mosfet_8205A.jpg" width="49%"></a>
+
+## Electronic devices
+
+### 20N R68 protection IC
+
+- [Datasheet DW01A-X](docs/DW01X.PDF) from Fortune, rev 1.7, 19 pages, 05/2014, 882 KB
+- [Datasheet DW01A](docs/DW01A.PDF) from H&M semi, 7 pages, 05/2004, 1270 KB
+
+### 8205A is a dual N-channel MOSFET
+
+- [Datasheet](docs/8205A_KIA.PDF) from KIA Semiconductors, 5 pages, v1.1 12/2015, 223 KB
+- [Datasheet](docs/8205A_VBsemi.PDF) from VBsemi.tw, 8 pages, 869 KB
+- [Datasheet](docs/8205A.PDF) from unclassified manufacturer in China, 7 pages, 10/2023, 535 KB
