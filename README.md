@@ -3,7 +3,7 @@
 ![GitHub License](https://img.shields.io/github/license/kreier/beston-9volt-battery)
 ![GitHub Release](https://img.shields.io/github/v/release/kreier/beston-9volt-battery)
 
-Investigating and documenting the inside of a 9V LiPo block battery replacement.
+Investigating and documenting the inside of a 9V LiPo block battery replacement. As it turns out, it contains two 3.7 Volt LiPo cells in series for a output voltage of 7.2 Volt (**6.0 - 8.4 Volt**) and the capacity of 1000 mAh only relates to the 3.7 Volt of one cell with ca. **500 mAh**, and doubled since there are two inside. At least the electronic included has over- and undervoltage protection.
 
 ## Circuit diagram overview
 
@@ -63,6 +63,36 @@ Explanation from Claude Sonnet 4.6:
 - [Datasheet](docs/8205A_VBsemi.PDF) from VBsemi.tw, 8 pages, 869 KB
 - [Datasheet](docs/8205A.PDF) from unclassified manufacturer in China, 7 pages, 10/2023, 535 KB
 
+## Battery type
+
+On the two LiPo cells you can clearly read: 
+
+- HL 702338-EQ0
+- DR 202211
+
+This translates to 
+### 🔋 1. Core type: 702338
+
+For LiPo batteries, the **6-digit number = physical size**. For example, a **702338 cell** is typically around:
+
+- **~38 × 23 × 7 mm**
+- Nominal voltage: **3.7 V** (single cell, 1S)
+- Capacity: often around **~500–600 mAh** for this size
+
+### 🏷️ 2. “HL … EQ0”
+
+These are **manufacturer / model / batch codes**, not standardized:
+
+- **HL** → likely manufacturer prefix (factory or brand)
+- **EQ0** → internal version or protection circuit variant (PCM/BMS option, connector type, etc.)
+
+### 📅 3. “DR 202211”
+
+This is almost certainly a **date code**:
+
+- **2022-11** → manufactured **November 2022**
+- “DR” → batch / production line code
+
 ## Reconstructed circuit diagram
 
 ### Claude Sonnet 4.6
@@ -81,10 +111,20 @@ The board designation **BLD\_9V V1.0** confirms it's a purpose-designed 2S LiPol
 
 ### ChatGPT 
 
-We needed 4 iterations, with coloring, non-overlapping orthogonal routing:
+We needed 5 iterations to specify coloring and non-overlapping orthogonal routing to arrive at this final stage. Notice that CS for the Rsense should be connected to the other side of the resistor, otherwise it's equal to B- and you would sense nothing. 
 
+![schematic v5](docs/circuit_ChatGPT_v5.svg)
+
+With an assumed discharge current of 100 mA for our wireless microphones these batteries should last up to 5 hours. The voltage drop over the 30 mΩ resistor is
+
+$$
+V = I \cdot R = 0.1 V \cdot 0.03 A = 0.003 \text{Volt} = 3\text{mV}
+$$
+
+The overcurrent protection IC will likely disconnect the battery by disabling the MOSFET if the measured voltage is above 10 mV.
+
+#### Earlier Iterations
 ![schematic v1](docs/circuit_ChatGPT_v1.svg)
 ![schematic v2](docs/circuit_ChatGPT_v2.svg)
 ![schematic v3](docs/circuit_ChatGPT_v3.svg)
 ![schematic v4](docs/circuit_ChatGPT_v4.svg)
-![schematic v5](docs/circuit_ChatGPT_v5.svg)
