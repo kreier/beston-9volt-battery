@@ -1,0 +1,3 @@
+﻿date,discharge_mA,mAh_d,time_d,voltage_end,charge_mA,mAh_c,time_c,voltage_end,Wh_d,Wh_c
+2026-04-03,200,365,107,6.71,200,526,158,8.17,2.7,3.9
+2026-04-07,100,,,,,,,,,
