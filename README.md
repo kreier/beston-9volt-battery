@@ -93,6 +93,24 @@ This is almost certainly a **date code**:
 - **2022-11** → manufactured **November 2022**
 - “DR” → batch / production line code
 
+## Other batteries
+
+For some 9V batteries we store the charge/discharge capacity and history here in the `/data` folder. To calculate the economis of rechargeable batteries here is a breakdown of AA batteries.
+
+<img src="docs/AA_chart.jpg" width="70%"> <img src="docs/AA_size.jpg" width="28%">
+<img src="docs/AA_image.jpg" width="49%"> <img src="docs/AA_cap.jpg" width="49%">
+
+### AA batteries for automated faucet opener
+
+Batteries changed: 2026/04/06
+
+- Beston AA M7037 4-pack 3600 mAh 248,000 VND
+- Beston AA M7037 4-pack 2800 mAh 229,000 VND, [link lazada](https://www.lazada.vn/products/i3078948913-s14786424857.html)
+- Beston AA M7037 4-pack 2500 mAh 205,000 VND
+- Regular AA Energizer Max 12-pack 162,000 VND [link lazada](https://www.lazada.vn/products/pdp-i1473783002-s6126120648.html)
+
+Price per non-rechargable: 13500 VND, price per rechargable: 57000 VND. Need to replace 4.2x to make back the money.
+
 ## Reconstructed circuit diagram
 
 ### Claude Sonnet 4.6
